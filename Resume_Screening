@@ -1,0 +1,41 @@
+import PyPDF2
+
+def extract_text_from_pdf(file_path):
+    text = ""
+    with open(file_path, 'rb') as file:
+        reader = PyPDF2.PdfReader(file)
+        for page in reader.pages:
+            text += page.extract_text()
+    return text
+def read_job_description(file_path):
+    with open(file_path, 'r', encoding='utf-8') as file:
+        return file.read()
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+
+def calculate_similarity(resume_text, job_desc):
+    documents = [resume_text, job_desc]
+    tfidf = TfidfVectorizer(stop_words='english')
+    tfidf_matrix = tfidf.fit_transform(documents)
+    similarity = cosine_similarity(tfidf_matrix[0:1], tfidf_matrix[1:2])
+    return round(similarity[0][0] * 100, 2)
+import os
+
+def rank_resumes(resume_folder, job_desc_path):
+    job_desc = read_job_description(job_desc_path)
+    results = []
+
+    for file in os.listdir(resume_folder):
+        if file.endswith(".pdf"):
+            resume_path = os.path.join(resume_folder, file)
+            resume_text = extract_text_from_pdf(resume_path)
+            score = calculate_similarity(resume_text, job_desc)
+            results.append((file, score))
+
+    results.sort(key=lambda x: x[1], reverse=True)
+
+    print("\nResume Ranking:\n")
+    for resume, score in results:
+        print(f"{resume} → {score}% match")
+if __name__ == "__main__":
+    rank_resumes("resumes", "job_description.txt")
