@@ -1,0 +1,21 @@
+We are looking for a Python Developer with strong knowledge in data analysis and machine learning.
+
+Required Skills:
+- Python programming
+- Pandas and NumPy
+- Scikit-learn
+- SQL
+- Data visualization
+- Problem-solving skills
+- Knowledge of REST APIs
+
+Responsibilities:
+- Develop and maintain backend systems
+- Build machine learning models
+- Analyze large datasets
+- Write clean and efficient code
+- Collaborate with development team
+
+Experience:
+- 0-2 years of experience in Python development
+- Understanding of object-oriented programming
